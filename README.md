@@ -6,13 +6,14 @@
 
 
 ## Building and installation
-``k2dist`` can be installed from the source code in an python environment that
+``k2dist`` can be installed from the source code in a python environment that
 resolves all necessary dependencies. Alternatively, ``k2dist`` can be installed 
 via conda.
 
 ### Source
-To install ``k2dist`` from the source code clone the git repository and run the
+To install ``k2dist`` from the source clone the git repository and run the
 setup script.
+
 ```commandline
 git clone https://gitlab.peulen.xyz/tpeulen/k2dist
 cd k2dist
