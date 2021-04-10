@@ -1,11 +1,11 @@
-image: continuumio/miniconda3:latest
-
-before_script:
-  - export PIP_CACHE_DIR="/opt/cache/pip"
-  - conda env create -f environment.yml
-  - source activate koopa
-
-tests:
-  stage: test
+build debian:
+  stage: build
+  tags:
+    - linux
+  image: continuumio/miniconda3:latest
+  before_script:
+    - export PIP_CACHE_DIR="/opt/cache/pip"
+    - conda env create -f environment.yml
+    - source activate k2dist
   script:
-    - python -m unittest discover -v
+    - echo "I am a build stage job for debian, running on docker using debian:stretch image"
