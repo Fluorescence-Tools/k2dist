@@ -54,8 +54,6 @@ test linux:
         --add channels tpeulen/label/nightly
     - conda install mamba -n base
     - conda config --add channels "file://`pwd`/bld-dir"
-    - conda create -n test
-    - conda activate test
     - mamba install k2dist
     # Run GUI with xvfb, as there is no X11 screen
     - |
