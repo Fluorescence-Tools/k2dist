@@ -5,8 +5,8 @@ build debian:
   image: continuumio/miniconda3:latest
   before_script:
     # See: https://github.com/conda-forge/pygridgen-feedstock/issues/10
-    - sudo apt update
-    - sudo apt install libgl1-mesa-glx
+    - apt update
+    - apt install libgl1-mesa-glx
     - export PIP_CACHE_DIR="/opt/cache/pip"
     - conda update -n base -c defaults conda
     - conda install mamba -n base -c conda-forge
