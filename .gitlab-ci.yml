@@ -11,7 +11,7 @@ build linux:
   stage: build
   tags:
     - linux
-  image: continuumio/miniconda3:latest
+  image: mambaorg/micromamba:latest
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate base
@@ -32,7 +32,7 @@ test linux:
   stage: test
   tags:
     - linux
-  image: continuumio/miniconda3:latest
+  image: mambaorg/micromamba:latest
   dependencies:
     - build linux
   before_script:
@@ -51,7 +51,7 @@ test linux:
         --add channels salilab \
         --add channels conda-forge \
         --add channels tpeulen \
-        --add channels tpeulen/label/nightly
+        --add channels tpeulen/label/nightly \
     - conda install mamba -n base
     - conda config --add channels "file://`pwd`/bld-dir"
     - mamba install k2dist
