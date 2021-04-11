@@ -33,7 +33,7 @@ build linux:
         conda config --add channels conda-forge
         conda config --add channels tpeulen
         conda config --add channels tpeulen/label/nightly
-    - conda mambabuild conda-recipe --output-folder bld-dir
+    - conda mambabuild conda-recipe
   artifacts:
     expire_in: 7 days
     paths:
