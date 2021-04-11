@@ -15,12 +15,13 @@ build linux:
     - apt update -y
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
     - conda update -n base -c defaults conda
-    - conda install mamba -n base -c conda-forge
+    - conda install mamba boa -n base -c conda-forge
     - mamba env create -f environment.yml
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
-    - source activate k2dist
-    - python setup.py install
+    - source activate base
+    - conda mambabuild conda-recipe
+    - conda install k2dist --use-local
     # Run GUI with xvfb, as there is no X11 screen
     - |
       xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
