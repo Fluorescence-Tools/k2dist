@@ -10,4 +10,4 @@ build debian:
     - mamba env create -f environment.yml
     - source activate k2dist
   script:
-    - echo "I am a build stage job for debian, running on docker using debian:stretch image"
+    - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
