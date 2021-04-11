@@ -7,6 +7,15 @@ stages:
 # only cache local items.
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  CONDA_PACKAGE: "k2dist"
+  DEPLOY_VARIABLE: "nightly"
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /master/
+      variables:
+        DEPLOY_VARIABLE: "main"  # Override globally-defined DEPLOY_VARIABLE
+    - when: always                            # Run the pipeline in other cases
 
 build linux:
   stage: build
@@ -57,34 +66,23 @@ test linux:
     - conda config --add channels "file://`pwd`/bld-dir"
     - conda create -n test python=3.7
     - conda activate test
-    - mamba install python=3.7 k2dist
+    - mamba install python=3.7 ${CONDA_PACKAGE}
     # Run GUI with xvfb, as there is no X11 screen
     - |
       xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
       sleep 10
       pgrep -f k2dist | awk '{print "kill -9 " $1}' | sh
 
-#deploy linux:
-#  stage: deploy
-#  tags:
-#    - linux
-#  image: continuumio/miniconda3:latest
-#  dependencies:
-#    - build linux
-#  script:
-#    - source activate
-#    - conda update -y -n base -c defaults conda
-#    - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
-#    - |
-#        conda config --add channels defaults
-#        conda config --add channels salilab
-#        conda config --add channels conda-forge
-#        conda config --add channels tpeulen
-#        conda config --add channels tpeulen/label/nightly
-#    - conda config --add channels "file://`pwd`/bld-dir"
-#    - mamba install python=3.7 k2dist
-#    # Run GUI with xvfb, as there is no X11 screen
-#    - |
-#      xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
-#      sleep 10
-#      pgrep -f k2dist | awk '{print "kill -9 " $1}' | sh
+deploy linux:
+  stage: deploy
+  tags:
+    - linux
+  image: continuumio/miniconda3:latest
+  dependencies:
+    - test linux
+  script:
+    - echo "I am a depolyment stage job for debian, running on docker using continuumio/miniconda3:latest image"
+    - source activate
+    # Install conda client to upload the package
+    - conda install anaconda-client
+    - anaconda upload -t $ANACONDA_API_TOKEN -l $DEPLOY_VARIABLE -u ${CONDA_USER} --force bld-dir/**/${CONDA_PACKAGE}*.tar.bz2
