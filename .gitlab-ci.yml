@@ -71,7 +71,7 @@ test linux:
     - conda create -n test python=3.7
     - conda activate test
     - mamba install python=3.7 ${CONDA_PACKAGE}
-    # Run GUI with xvfb, as there is no X11 screen
+    # Run GUI with xvfb - no X11 screen
     - |
       xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
       sleep 10
