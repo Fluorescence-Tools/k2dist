@@ -11,10 +11,10 @@ build linux:
   stage: build
   tags:
     - linux
-  image: mambaorg/micromamba:latest
+  image: continuumio/miniconda3:latest
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
-    - micromamba activate
+    - source activate
     - mamba update -y -n base -c defaults conda
     - |
         conda config --add channels defaults
@@ -31,7 +31,7 @@ test linux:
   stage: test
   tags:
     - linux
-  image: mambaorg/micromamba:latest
+  image: continuumio/miniconda3:latest
   dependencies:
     - build linux
   before_script:
@@ -42,7 +42,7 @@ test linux:
     - apt update -y
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
   script:
-    - micromamba activate
+    - source activate
     - mamba update -y -n base -c defaults conda
     - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - |
