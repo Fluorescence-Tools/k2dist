@@ -22,7 +22,6 @@ build linux:
         --add channels conda-forge \
         --add channels tpeulen \
         --add channels tpeulen/label/nightly
-    - conda install mamba boa -n base
     - conda mambabuild conda-recipe --output-folder bld-dir
   artifacts:
     paths:
@@ -52,7 +51,6 @@ test linux:
         --add channels conda-forge \
         --add channels tpeulen \
         --add channels tpeulen/label/nightly \
-    - conda install mamba -n base
     - conda config --add channels "file://`pwd`/bld-dir"
     - mamba install k2dist
     # Run GUI with xvfb, as there is no X11 screen
