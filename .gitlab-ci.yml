@@ -15,7 +15,7 @@ workflow:
     - if: $CI_COMMIT_REF_NAME =~ /master/
       variables:
         DEPLOY_VARIABLE: "main"  # Override globally-defined DEPLOY_VARIABLE
-    - when: always                            # Run the pipeline in other cases
+    - when: always               # Run the pipeline in other cases
 
 build linux:
   stage: build
@@ -80,10 +80,11 @@ deploy linux:
     - linux
   image: continuumio/miniconda3:latest
   dependencies:
+    - build linux
     - test linux
   script:
     - echo "I am a depolyment stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate
     # Install conda client to upload the package
     - conda install anaconda-client
-    - anaconda upload -t $ANACONDA_API_TOKEN -l $DEPLOY_VARIABLE -u ${CONDA_USER} --force bld-dir/linux-64/${CONDA_PACKAGE}*.tar.bz2
+    - anaconda upload -t $ANACONDA_API_TOKEN -l $DEPLOY_VARIABLE -u ${CONDA_USER} --force "`pwd`/bld-dir/linux-64/$CONDA_PACKAGE*.tar.bz2"
