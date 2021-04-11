@@ -55,6 +55,8 @@ test linux:
         conda config --add channels tpeulen
         conda config --add channels tpeulen/label/nightly
     - conda config --add channels "file://`pwd`/bld-dir"
+    - conda create -n test python=3.7
+    - conda activate test
     - mamba install python=3.7 k2dist
     # Run GUI with xvfb, as there is no X11 screen
     - |
