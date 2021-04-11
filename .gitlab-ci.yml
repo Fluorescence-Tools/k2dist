@@ -40,15 +40,15 @@ build:linux:
         conda config --add channels tpeulen
         conda config --add channels tpeulen/label/nightly
     - conda mambabuild conda-recipe --output-folder bld-dir
-    # Test
-    - conda config --add channels "file://`pwd`/bld-dir"
-    - mamba create -n test python=3.7 ${CONDA_PACKAGE}
-    - conda activate test
-    # Run GUI with xvfb - no X11 screen
-    - |
-      xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
-      sleep 10
-      pgrep -f k2dist | awk '{print "kill -9 " $1}' | sh
+#    # Test
+#    - conda config --add channels "file://`pwd`/bld-dir"
+#    - mamba create -n test python=3.7 ${CONDA_PACKAGE}
+#    - conda activate test
+#    # Run GUI with xvfb - no X11 screen
+#    - |
+#      xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
+#      sleep 10
+#      pgrep -f k2dist | awk '{print "kill -9 " $1}' | sh
   artifacts:
     expire_in: 7 days
     paths:
@@ -56,9 +56,11 @@ build:linux:
 
 deploy:linux:
   stage: deploy
+  image: continuumio/miniconda3:latest
   tags:
     - linux
-  image: continuumio/miniconda3:latest
+  dependencies:
+    - build:linux
   script:
     - echo "I am a depolyment stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate
