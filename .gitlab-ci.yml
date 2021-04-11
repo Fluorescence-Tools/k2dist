@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - deploy
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -43,9 +44,10 @@ test linux:
     - apt update -y
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
   script:
-    - source activate
-    - conda update -y -n base -c defaults conda
     - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
+    - source activate
+    - conda install mamba boa -c conda-forge
+    - mamba update -y -n base -c defaults conda
     - |
         conda config --add channels defaults
         conda config --add channels salilab
@@ -59,3 +61,28 @@ test linux:
       xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
       sleep 10
       pgrep -f k2dist | awk '{print "kill -9 " $1}' | sh
+
+#deploy linux:
+#  stage: deploy
+#  tags:
+#    - linux
+#  image: continuumio/miniconda3:latest
+#  dependencies:
+#    - build linux
+#  script:
+#    - source activate
+#    - conda update -y -n base -c defaults conda
+#    - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
+#    - |
+#        conda config --add channels defaults
+#        conda config --add channels salilab
+#        conda config --add channels conda-forge
+#        conda config --add channels tpeulen
+#        conda config --add channels tpeulen/label/nightly
+#    - conda config --add channels "file://`pwd`/bld-dir"
+#    - mamba install python=3.7 k2dist
+#    # Run GUI with xvfb, as there is no X11 screen
+#    - |
+#      xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
+#      sleep 10
+#      pgrep -f k2dist | awk '{print "kill -9 " $1}' | sh
