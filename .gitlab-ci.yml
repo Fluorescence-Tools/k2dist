@@ -1,12 +1,32 @@
-build linux:
+stages:
+  - build
+  - test
+
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+build debian:
   stage: build
   tags:
     - linux
   image: continuumio/miniconda3:latest
-  # Change pip's cache directory to be inside the project directory since we can
-  # only cache local items.
-  variables:
-    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  before_script:
+    - conda update -n base -c defaults conda
+    # add conda channels
+    - conda config --add channels defaults --add channels salilab --add conda-forge --add channels tpeulen --add channels tpeulen/label/nightly
+    - conda install mamba boa -n base
+  script:
+    - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
+    - source activate base
+    - conda mambabuild conda-recipe
+
+test debian:
+  stage: test
+  tags:
+    - linux
+  image: continuumio/miniconda3:latest
   before_script:
     # Address issue with OpenGL and X11 display
     # See: https://stackoverflow.com/questions/65675765/is-it-possible-to-run-x11-on-gitlab-ci
@@ -15,13 +35,15 @@ build linux:
     - apt update -y
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
     - conda update -n base -c defaults conda
-    - conda install mamba boa -n base -c conda-forge
-    - mamba env create -f environment.yml
+    # add conda channels
+    - conda config --add channels defaults --add channels salilab --add conda-forge --add channels tpeulen --add channels tpeulen/label/nightly
+    - conda install mamba -n base
   script:
-    - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
+    - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate base
-    - conda mambabuild conda-recipe
-    - conda install k2dist --use-local
+    - conda create -n test
+    - conda activate test
+    - mamba install k2dist --use-local
     # Run GUI with xvfb, as there is no X11 screen
     - |
       xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
