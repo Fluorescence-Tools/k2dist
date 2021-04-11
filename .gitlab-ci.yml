@@ -7,12 +7,14 @@ stages:
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
-build debian:
+build linux:
   stage: build
   tags:
     - linux
   image: continuumio/miniconda3:latest
-  before_script:
+  script:
+    - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
+    - source activate base
     - |
       conda config \
         --add channels defaults \
@@ -21,21 +23,18 @@ build debian:
         --add channels tpeulen \
         --add channels tpeulen/label/nightly
     - conda install mamba boa -n base
-  script:
-    - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
-    - source activate base
     - conda mambabuild conda-recipe --output-folder bld-dir
   artifacts:
     paths:
     - bld-dir
 
-test debian:
+test linux:
   stage: test
   tags:
     - linux
   image: continuumio/miniconda3:latest
   dependencies:
-    - build debian
+    - build linux
   before_script:
     # Address issue with OpenGL and X11 display
     # See: https://stackoverflow.com/questions/65675765/is-it-possible-to-run-x11-on-gitlab-ci
