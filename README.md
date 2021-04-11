@@ -1,6 +1,8 @@
+![Pipeline status](https://gitlab.peulen.xyz/tpeulen/k2dist/badges/master/pipeline.svg?style=flat-square)
+
 # k2dist
 
-``k2dist`` is an tool to compute orientation factor (kappa2) distributions.
+``k2dist`` is a tool to compute orientation factor (kappa2) distributions.
 
 ![k2dist GUI][1]
 

@@ -11,5 +11,5 @@ build debian:
     - source activate k2dist
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
-    - python setup.py
+    - python setup.py install
     - k2dist
