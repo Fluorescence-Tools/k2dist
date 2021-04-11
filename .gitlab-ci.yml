@@ -32,7 +32,7 @@ build linux:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate
     - conda install mamba boa conda-verify -c conda-forge
-    - mamba update -y -n base -c defaults conda
+    - mamba update -y -n base -c defaults --all
     - |
         conda config --add channels defaults
         conda config --add channels salilab
@@ -52,7 +52,7 @@ build linux:
   artifacts:
     expire_in: 7 days
     paths:
-      - bld-dir
+      - bld-dir/
 
 deploy linux:
   stage: deploy
@@ -66,4 +66,4 @@ deploy linux:
     - source activate
     # Install conda client to upload the package
     - conda install anaconda-client
-    - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force "`pwd`/bld-dir/linux-64/$CONDA_PACKAGE*.tar.bz2"
+    - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force bld-dir/linux-64/${CONDA_PACKAGE}*.tar.bz2"
