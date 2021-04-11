@@ -42,7 +42,6 @@ build linux:
     - conda mambabuild conda-recipe --output-folder bld-dir
     # Test
     - conda config --add channels "file://`pwd`/bld-dir"
-    - conda create -n test python=3.7
     - conda activate test
     - mamba install python=3.7 ${CONDA_PACKAGE}
     # Run GUI with xvfb - no X11 screen
