@@ -15,7 +15,7 @@ build debian:
   before_script:
     - conda update -n base -c defaults conda
     # add conda channels
-    -|
+    - |
       conda config \
         --add channels defaults \
         --add channels salilab \
@@ -42,7 +42,7 @@ test debian:
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
     - conda update -n base -c defaults conda
     # add conda channels
-    -|
+    - |
       conda config \
         --add channels defaults \
         --add channels salilab \
