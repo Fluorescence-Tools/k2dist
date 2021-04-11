@@ -16,7 +16,7 @@ workflow:
         DEPLOY_VARIABLE: "main"  # Override globally-defined DEPLOY_VARIABLE
     - when: always               # Run the pipeline in other cases
 
-build linux:
+build:linux:
   stage: build
   tags:
     - linux
@@ -54,13 +54,11 @@ build linux:
     paths:
       - bld-dir/
 
-deploy linux:
+deploy:linux:
   stage: deploy
   tags:
     - linux
   image: continuumio/miniconda3:latest
-  dependencies:
-    - build linux
   script:
     - echo "I am a depolyment stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate
