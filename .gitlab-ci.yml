@@ -6,7 +6,7 @@ build debian:
   before_script:
     - export PIP_CACHE_DIR="/opt/cache/pip"
     - conda install mamba -n base -c conda-forge
-    - mamba env create -f environment.yml
+    - conda env create -f environment.yml
     - source activate k2dist
   script:
     - echo "I am a build stage job for debian, running on docker using debian:stretch image"
