@@ -81,7 +81,6 @@ deploy linux:
   image: continuumio/miniconda3:latest
   dependencies:
     - build linux
-    - test linux
   script:
     - echo "I am a depolyment stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate
