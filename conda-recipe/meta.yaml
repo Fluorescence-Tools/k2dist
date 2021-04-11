@@ -9,7 +9,7 @@ source:
 
 build:
   number: 0
-  string: np{{ CONDA_NPY }}py{{ CONDA_PY }}
+  string: np{{ CONDA_NPY }}py{{ python }}
   entry_points:
     {% for entry_point_type, entry_points in data.get("entry_points", dict()).items() -%}
     {% for entry_point in entry_points -%}
@@ -19,12 +19,12 @@ build:
 requirements:
   host:
     - python {{ python }}
-    - {{ pin_compatible('numpy') }}
+    - numpy
     - pyyaml
     - setuptools
   build:
     - python {{ python }}
-    - {{ pin_compatible('numpy') }}
+    - numpy
     - setuptools
     - pyyaml
   run:
