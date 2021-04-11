@@ -15,6 +15,7 @@ build linux:
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - micromamba activate
+    - mamba update -y -n base -c defaults conda
     - |
         conda config --add channels defaults
         conda config --add channels salilab
@@ -42,6 +43,7 @@ test linux:
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
   script:
     - micromamba activate
+    - mamba update -y -n base -c defaults conda
     - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - |
         conda config --add channels defaults
