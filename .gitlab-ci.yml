@@ -42,6 +42,9 @@ test linux:
     # procps is used to grep the process by name to kill it when needed
     - apt update -y
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
+  script:
+    - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
+    - source activate base
     - |
       conda config \
         --add channels defaults \
@@ -50,9 +53,6 @@ test linux:
         --add channels tpeulen \
         --add channels tpeulen/label/nightly
     - conda install mamba -n base
-  script:
-    - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
-    - source activate base
     - conda config --add channels "file://`pwd`/bld-dir"
     - conda create -n test
     - conda activate test
