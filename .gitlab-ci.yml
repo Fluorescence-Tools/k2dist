@@ -64,6 +64,7 @@ deploy:linux:
   script:
     - echo "I am a depolyment stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate
+    - ls
     # Install conda client to upload the package
     - conda install anaconda-client
     - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force bld-dir/linux-64/${CONDA_PACKAGE}*.tar.bz2
