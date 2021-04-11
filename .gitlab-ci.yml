@@ -25,7 +25,7 @@ build linux:
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate
-    - conda install mamba boa -c conda-forge
+    - conda install mamba boa conda-verify -c conda-forge
     - mamba update -y -n base -c defaults conda
     - |
         conda config --add channels defaults
@@ -34,10 +34,13 @@ build linux:
         conda config --add channels tpeulen
         conda config --add channels tpeulen/label/nightly
     - conda mambabuild conda-recipe --output-folder bld-dir
+    - mkdir -p artifacts
+    - cp "bld-dir/linux-64/${CONDA_PACKAGE}*.tar.bz2" artifacts
   artifacts:
     expire_in: 7 days
     paths:
     - bld-dir
+    - artifacts
 
 test linux:
   stage: test
@@ -86,4 +89,4 @@ deploy linux:
     - source activate
     # Install conda client to upload the package
     - conda install anaconda-client
-    - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force "`pwd`/bld-dir/linux-64/$CONDA_PACKAGE*.tar.bz2"
+    - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force artifacts/*.bz2"
