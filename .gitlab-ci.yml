@@ -53,7 +53,7 @@ test linux:
         conda config --add channels tpeulen
         conda config --add channels tpeulen/label/nightly
     - conda config --add channels "file://`pwd`/bld-dir"
-    - conda install k2dist
+    - mamba install k2dist
     # Run GUI with xvfb, as there is no X11 screen
     - |
       xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
