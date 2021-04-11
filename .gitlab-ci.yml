@@ -14,7 +14,6 @@ build linux:
   image: mambaorg/micromamba:latest
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
-    - source activate base
     - |
       conda config \
         --add channels defaults \
@@ -43,7 +42,6 @@ test linux:
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
   script:
     - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
-    - source activate base
     - |
       conda config \
         --add channels defaults \
