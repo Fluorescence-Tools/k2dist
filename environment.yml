@@ -3,6 +3,7 @@ name: k2dist
 channels:
   - defaults
   - tpeulen
+  - tpeulen/nightly
   - salilab
   - conda-forge
 
