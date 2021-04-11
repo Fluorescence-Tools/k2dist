@@ -12,6 +12,8 @@ build debian:
   tags:
     - linux
   image: continuumio/miniconda3:latest
+  artifacts:
+    untracked: true
   before_script:
     - conda update -n base -c defaults conda
     # add conda channels
@@ -33,6 +35,8 @@ test debian:
   tags:
     - linux
   image: continuumio/miniconda3:latest
+  dependencies:
+    - build
   before_script:
     # Address issue with OpenGL and X11 display
     # See: https://stackoverflow.com/questions/65675765/is-it-possible-to-run-x11-on-gitlab-ci
