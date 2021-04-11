@@ -16,12 +16,11 @@ build linux:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - micromamba activate
     - |
-      conda config \
-        --add channels defaults \
-        --add channels salilab \
-        --add channels conda-forge \
-        --add channels tpeulen \
-        --add channels tpeulen/label/nightly
+        conda config --add channels defaults
+        conda config --add channels salilab
+        conda config --add channels conda-forge
+        conda config --add channels tpeulen
+        conda config --add channels tpeulen/label/nightly
     - conda mambabuild conda-recipe --output-folder bld-dir
   artifacts:
     paths:
@@ -45,12 +44,11 @@ test linux:
     - micromamba activate
     - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - |
-      conda config \
-        --add channels defaults \
-        --add channels salilab \
-        --add channels conda-forge \
-        --add channels tpeulen \
-        --add channels tpeulen/label/nightly \
+        conda config --add channels defaults
+        conda config --add channels salilab
+        conda config --add channels conda-forge
+        conda config --add channels tpeulen
+        conda config --add channels tpeulen/label/nightly
     - conda config --add channels "file://`pwd`/bld-dir"
     - mamba install k2dist
     # Run GUI with xvfb, as there is no X11 screen
