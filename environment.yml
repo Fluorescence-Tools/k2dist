@@ -3,12 +3,11 @@ name: k2dist
 channels:
   - defaults
   - tpeulen
-  - tpeulen/nightly
   - salilab
   - conda-forge
 
 dependencies:
-    - python 3.7
+    - python =3.7.3
     - numpy
     - pyyaml >=5.0.0
     - qtpy >=1.8.0
