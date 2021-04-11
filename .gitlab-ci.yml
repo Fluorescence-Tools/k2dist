@@ -44,8 +44,7 @@ test linux:
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
   script:
     - source activate
-    - conda install mamba boa -c conda-forge
-    - mamba update -y -n base -c defaults conda
+    - conda update -y -n base -c defaults conda
     - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - |
         conda config --add channels defaults
@@ -54,7 +53,7 @@ test linux:
         conda config --add channels tpeulen
         conda config --add channels tpeulen/label/nightly
     - conda config --add channels "file://`pwd`/bld-dir"
-    - mamba install k2dist
+    - conda install k2dist
     # Run GUI with xvfb, as there is no X11 screen
     - |
       xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
