@@ -34,12 +34,10 @@ build linux:
         conda config --add channels tpeulen
         conda config --add channels tpeulen/label/nightly
     - conda mambabuild conda-recipe --output-folder bld-dir
-    - mkdir -p artifacts
-    - cp -r /opt/conda/conda-bld artifacts
   artifacts:
     expire_in: 7 days
     paths:
-      - artifacts
+      - /opt/conda/conda-bld
 
 test linux:
   stage: test
@@ -66,7 +64,7 @@ test linux:
         conda config --add channels conda-forge
         conda config --add channels tpeulen
         conda config --add channels tpeulen/label/nightly
-    - conda config --add channels "file://artifacts"
+    - conda config --add channels "file:///opt/conda/conda-bld"
     - conda create -n test python=3.7
     - conda activate test
     - mamba install python=3.7 ${CONDA_PACKAGE}
@@ -88,5 +86,5 @@ deploy linux:
     - source activate
     # Install conda client to upload the package
     - conda install anaconda-client
-    - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force "artifacts/linux-64/${CONDA_PACKAGE}*.tar.bz2"
+    - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force "/opt/conda/conda-bld/linux-64/${CONDA_PACKAGE}*.tar.bz2"
 
