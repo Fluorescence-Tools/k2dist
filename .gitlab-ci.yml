@@ -11,17 +11,18 @@ build linux:
     # Address issue with OpenGL and X11 display
     # See: https://stackoverflow.com/questions/65675765/is-it-possible-to-run-x11-on-gitlab-ci
     # See: https://github.com/conda-forge/pygridgen-feedstock/issues/10
+    # procps is used to grep the process by name to kill it when needed
     - apt update -y
-    - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx
+    - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
     - conda update -n base -c defaults conda
     - conda install mamba -n base -c conda-forge
     - mamba env create -f environment.yml
-    - source activate k2dist
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
+    - source activate k2dist
     - python setup.py install
     # Run GUI with xvfb, as there is no X11 screen
     - |
       xvfb-run -a -s "-screen 0 1400x900x24 +extension RANDR" -- k2dist &
-      sleep 120
+      sleep 10
       pgrep -f k2dist | awk '{print "kill -9 " $1}' | sh
