@@ -64,13 +64,5 @@ deploy:linux:
   script:
     - echo "I am a depolyment stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate
-    - conda activate base
     - conda install anaconda-client
-    - |
-        conda config --add channels defaults
-        conda config --add channels salilab
-        conda config --add channels conda-forge
-        conda config --add channels tpeulen
-        conda config --add channels tpeulen/label/nightly
-    - ls
-    - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force bld-dir/linux-64/*.tar.bz2
+    - anaconda -t ${ANACONDA_API_TOKEN} upload -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force bld-dir/linux-64/*.tar.bz2
