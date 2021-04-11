@@ -15,7 +15,13 @@ build debian:
   before_script:
     - conda update -n base -c defaults conda
     # add conda channels
-    - conda config --add channels defaults --add channels salilab --add conda-forge --add channels tpeulen --add channels tpeulen/label/nightly
+    -|
+      conda config \
+        --add channels defaults \
+        --add channels salilab \
+        --add channels conda-forge \
+        --add channels tpeulen \
+        --add channels tpeulen/label/nightly
     - conda install mamba boa -n base
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
@@ -36,7 +42,13 @@ test debian:
     - apt install -y xorg-dev libglu1-mesa libgl1-mesa-dev xvfb libxinerama1 libxcursor1 libgl1-mesa-glx procps
     - conda update -n base -c defaults conda
     # add conda channels
-    - conda config --add channels defaults --add channels salilab --add conda-forge --add channels tpeulen --add channels tpeulen/label/nightly
+    -|
+      conda config \
+        --add channels defaults \
+        --add channels salilab \
+        --add channels conda-forge \
+        --add channels tpeulen \
+        --add channels tpeulen/label/nightly
     - conda install mamba -n base
   script:
     - echo "I am a test stage job for debian, running on docker using continuumio/miniconda3:latest image"
