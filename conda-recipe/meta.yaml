@@ -38,7 +38,6 @@ requirements:
     - matplotlib
     - pathlib2 # [py < 3]
     - typing_extensions
-
 about:
   home: {{ data.get('url') }}
   license: {{ data.get('license') }}

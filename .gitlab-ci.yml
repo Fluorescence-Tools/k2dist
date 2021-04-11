@@ -89,4 +89,4 @@ deploy linux:
     - source activate
     # Install conda client to upload the package
     - conda install anaconda-client
-    - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force artifacts/*.bz2"
+    - anaconda upload -t ${ANACONDA_API_TOKEN} -l ${DEPLOY_VARIABLE} -u ${CONDA_USER} --force  artifacts/*.bz2
