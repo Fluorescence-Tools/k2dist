@@ -20,8 +20,7 @@ build:linux:
     - conda install mamba boa conda-verify -c conda-forge
     - mamba update -y -n base -c defaults --all
     - |
-        conda config --add channels defaults
-        conda config --add channels salilab
+        conda config --add channels conda-forge
         conda config --add channels tpeulen
     - conda mambabuild conda-recipe --output-folder bld-dir
   artifacts:
@@ -50,11 +49,10 @@ test:linux:
     - mamba update -y -n base -c defaults --all
     - |
         conda config --add channels defaults
-        conda config --add channels salilab
+        conda config --add channels conda-forge
         conda config --add channels tpeulen
-        conda config --add channels tpeulen/label/nightly
     - conda config --add channels "file://`pwd`/bld-dir"
-    - mamba create -n test python=3.7 ${CONDA_PACKAGE}
+    - mamba create -n test python ${CONDA_PACKAGE}
     - conda activate test
     # Run GUI with xvfb - no X11 screen
     - |
