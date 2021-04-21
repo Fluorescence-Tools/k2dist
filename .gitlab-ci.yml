@@ -8,6 +8,7 @@ stages:
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   CONDA_PACKAGE: "k2dist"
+  MAMBA_VERSION: "0.10"
 
 build:linux:
   stage: build
@@ -17,8 +18,7 @@ build:linux:
   script:
     - echo "I am a build stage job for debian, running on docker using continuumio/miniconda3:latest image"
     - source activate
-    - conda install mamba boa conda-verify -c conda-forge
-    - mamba update -y -n base -c defaults --all
+    - conda install mamba=$MAMBA_VERSION boa conda-verify -c conda-forge
     - |
         conda config --add channels conda-forge
         conda config --add channels tpeulen
@@ -46,7 +46,7 @@ test:linux:
     - source activate
     # Disable Numba JIT for correct coverage analysis
     - export NUMBA_DISABLE_JIT=1
-    - conda install mamba conda-verify -c conda-forge
+    - conda install mamba=$MAMBA_VERSION -c conda-forge
     - mamba update -y -n base -c defaults --all
     - |
         conda config --add channels defaults
