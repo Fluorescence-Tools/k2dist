@@ -27,19 +27,14 @@ requirements:
     - numpy
     - pyyaml
     - setuptools
-  build:
-    - python {{ python }}
-    - numpy
-    - setuptools
-    - pyyaml
   run:
     - python {{ python }}
     - numpy
-    - pyyaml >=5.0.0
+    - pyyaml
     - qtpy
     - pyqt
-    - pyqtgraph >0.10.0|0.9.10
-    - scikit-fluorescence >=0.0.1
+    - pyqtgraph
+    - scikit-fluorescence
     - matplotlib
     - pathlib2 # [py < 3]
     - typing_extensions
