@@ -1,6 +1,5 @@
 channels:
-  - defaults
-  - salilab
-  - tpeulen
   - conda-forge
-# channel_priority: strict
+  - tpeulen
+  - defaults
+channel_priority: strict
