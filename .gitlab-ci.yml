@@ -4,7 +4,6 @@ stages:
   - deploy
   - Trigger-cross-projects
 
-
 build:linux:
   stage: build
   tags:
@@ -59,7 +58,6 @@ test:linux:
     - source activate
     # Disable Numba JIT for correct coverage analysis
     - export NUMBA_DISABLE_JIT=1
-    - git clone https://gitlab.peulen.xyz/build/tools
     - cp tools/.condarc ~/.condarc
     - conda config --add channels "file://`pwd`/bld-dir"
     - mamba create -n test python k2dist
