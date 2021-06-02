@@ -4,23 +4,42 @@ stages:
   - deploy
   - Trigger-cross-projects
 
-# Change pip's cache directory to be inside the project directory since we can
-# only cache local items.
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
 build:linux:
   stage: build
   tags:
     - linux
-  image: continuumio/miniconda3:latest
+  image: condaforge/mambaforge:latest
+  before_script:
+    - apt update -yq && apt -yq install build-essential
+    - git submodule update --init --recursive --remote
   script:
-    - source activate
-    - cp .condarc ~/.condarc
-    - conda install mamba=$MAMBA_VERSION boa conda-verify
-    - conda mambabuild conda-recipe --output-folder bld-dir
+    - ./tools/build.sh
   artifacts:
-    expire_in: 7 days
+    paths:
+      - bld-dir/
+
+build:windows:
+  stage: build
+  tags:
+    - win
+  before_script:
+    - git submodule update --init --recursive --remote
+  script:
+    - .\tools\build.bat
+  artifacts:
+    paths:
+      - bld-dir/
+
+build:osx:
+  stage: build
+  tags:
+    - osx
+  before_script:
+    - git submodule update --init --recursive --remote
+  script:
+    - ./tools/build.sh
+  artifacts:
     paths:
       - bld-dir/
 
@@ -28,7 +47,7 @@ test:linux:
   stage: test
   tags:
     - linux
-  image: continuumio/miniconda3:latest
+  image: continuumio/mambaforge:latest
   before_script:
     # Issue with OpenGL and X11 display
     # See: https://stackoverflow.com/questions/65675765/is-it-possible-to-run-x11-on-gitlab-ci
@@ -40,8 +59,8 @@ test:linux:
     - source activate
     # Disable Numba JIT for correct coverage analysis
     - export NUMBA_DISABLE_JIT=1
-    - cp .condarc ~/.condarc
-    - conda install mamba=$MAMBA_VERSION
+    - git clone https://gitlab.peulen.xyz/build/tools
+    - cp tools/.condarc ~/.condarc
     - conda config --add channels "file://`pwd`/bld-dir"
     - mamba create -n test python k2dist
     - conda activate test
@@ -51,18 +70,19 @@ test:linux:
       sleep 10
       pgrep -f k2dist | awk '{print "kill -9 " $1}' | sh
 
-deploy:linux:
+deploy:conda:
   stage: deploy
-  image: continuumio/miniconda3:latest
+  image: condaforge/mambaforge:latest
   tags:
     - linux
   dependencies:
     - build:linux
+    - build:windows
+    - build:osx
+  before_script:
+    - git submodule update --init --recursive --remote
   script:
-    - source activate
-    - conda install anaconda-client
-    - if [[ "$CI_COMMIT_REF_NAME" == "master" ]]; then DEPLOY_LABEL=$LABEL_RELEASE; else DEPLOY_LABEL=$LABEL_TESTING; fi
-    - anaconda -t ${ANACONDA_API_TOKEN} upload -l ${DEPLOY_LABEL} -u ${CONDA_USER} --force bld-dir/linux-64/*.tar.bz2
+    - ./tools/deploy.sh
 
 chisurf:
   stage: Trigger-cross-projects

@@ -1,4 +1,0 @@
-python:
-  # - 2.7 # Problem: package scikit-fluorescence-0.0.2-py3.7 requires scipy >=1.4.0, but none of the providers can be installed
-  - 3.7
-  # - 3.8 # skf only for py 3.7 IMP not build
