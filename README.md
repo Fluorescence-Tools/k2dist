@@ -28,24 +28,25 @@ k2dist
 ```
 
 ### Conda
-``k2dist`` depends on common python packages such as ``numpy``. Additionally, ``k2dist`` depends on 
-``scikit-fluorescence``. Thus, to install ``k2dist`` make sure that conda channels that provide packages for the necessary
-dependencies are listed in the ``.condarc`` file 
+``k2dist`` depends on common python packages that can be installed from conda-forge. 
+The easiest installation path is using conda/mamba 
 
-```yaml
-channels:
-  - salilab
-  - tpeulen
-  - tpeulen/label/nightly
-  - conda-forge
-  - defaults
+```bash
+mamba install k2dist -c tpeulen
 ```
 
 To avoid potential conflicts ``k2dist`` can be installed in a separate environment. 
 
+```bash
+conda env create -n k2dist
+conda activate k2dist
+mamba install k2dist -c tpeulen
+```
+
+`k2dist` can be started from the command line as follows:
+
 ```commandline
-conda create -n test
-conda install k2dist
+k2dist
 ```
 
 

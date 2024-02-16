@@ -37,7 +37,7 @@ test:
   imports:
     - k2dist
   commands:
-    - k2dist &        # [linux or osx]
+    - k2dist &        # [linux]
 
 about:
   home: {{ data.get('url') }}
