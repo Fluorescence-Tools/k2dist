@@ -1,10 +1,6 @@
-"""
-
-"""
 import numba as nb
 import numpy as np
-
-from scikit_fluorescence import typing
+import typing
 
 
 def kappasq_dwt(

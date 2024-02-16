@@ -1,5 +1,5 @@
 import sys
-from k2dist.kappa2dist import Kappa2Dist
+from k2dist.k2dgui import Kappa2Dist
 from qtpy import QtWidgets
 
 

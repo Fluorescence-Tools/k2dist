@@ -9,7 +9,7 @@ import pyqtgraph.dockarea
 import os
 
 
-from kappa2_calc import kappasq_all_delta, kappasq_all, kappasq_dwt, s2delta
+from .k2dfun import kappasq_all_delta, kappasq_all, kappasq_dwt, s2delta
 
 
 class Kappa2Dist(QtWidgets.QWidget):
@@ -48,7 +48,7 @@ class Kappa2Dist(QtWidgets.QWidget):
             y=[0.0],
             name='kappa2'
         )
-        ## Connections
+        # Connections
         self.pushButton.clicked.connect(self.onUpdateHist)
         self.doubleSpinBox_4.valueChanged.connect(self.onUpdateRapp)
         self.hide()
