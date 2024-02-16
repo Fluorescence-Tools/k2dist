@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Kappa2 Distribution Calculator</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -463,9 +463,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../resources/resource.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>checkBox</sender>
