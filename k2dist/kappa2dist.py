@@ -9,25 +9,16 @@ import pyqtgraph.dockarea
 import os
 
 
-from scikit_fluorescence.modeling.kappa2 import \
-    kappasq_all_delta, kappasq_all, kappasq_dwt, s2delta
+from kappa2_calc import kappasq_all_delta, kappasq_all, kappasq_dwt, s2delta
 
 
 class Kappa2Dist(QtWidgets.QWidget):
 
     name = "Kappa2Dist"
 
-    def __init__(
-            self,
-            kappa2: float = 0.667,
-            *args,
-            **kwargs
-    ):
-        # initilize UI
-        super().__init__(
-            *args,
-            **kwargs
-        )
+    def __init__(self, kappa2: float = 0.667, *args, **kwargs):
+        # initialize UI
+        super().__init__(*args, **kwargs)
         uic.loadUi(
             os.path.join(
                 os.path.dirname(
@@ -62,9 +53,7 @@ class Kappa2Dist(QtWidgets.QWidget):
         self.doubleSpinBox_4.valueChanged.connect(self.onUpdateRapp)
         self.hide()
 
-    def onUpdateHist(
-            self
-    ) -> None:
+    def onUpdateHist(self) -> None:
         if self.model == "cone":
             if self.rAD_known:
                 x, k2hist, self.k2 = kappasq_all_delta(
@@ -95,9 +84,7 @@ class Kappa2Dist(QtWidgets.QWidget):
 
         self.onUpdateRapp()
 
-    def onUpdateRapp(
-            self
-    ) -> None:
+    def onUpdateRapp(self) -> None:
         k2 = self.k2_true
         k2scale = self.k2scale[1:]
         k2hist = self.k2hist
@@ -112,9 +99,7 @@ class Kappa2Dist(QtWidgets.QWidget):
         self.k2_sd = np.sqrt(np.dot(k2hist, (k2scale-self.k2_mean)**2) / sum(k2hist))
 
     @property
-    def model(
-            self
-    ) -> str:
+    def model(self) -> str:
         if self.radioButton_2.isChecked():
             return "cone"
         elif self.radioButton.isChecked():
