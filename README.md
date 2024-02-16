@@ -1,4 +1,6 @@
-![Pipeline status](https://gitlab.peulen.xyz/tpeulen/k2dist/badges/master/pipeline.svg?style=flat-square)
+![conda build](https://github.com/fluorescence-tools/k2dist/actions/workflows/conda-build.yml/badge.svg)
+[![Anaconda-Server Version](https://anaconda.org/tpeulen/k2dist/badges/version.svg)](https://anaconda.org/tpeulen/k2dist)
+
 
 # k2dist
 
