@@ -5,7 +5,10 @@ except ImportError:
     np = None
 from setuptools import setup, find_packages
 import sys
-sys.path.append('k2dist')
+import pathlib
+
+module_path = pathlib.Path(__file__).parent.resolve() / 'k2dist'
+sys.path.append(module_path.as_posix())
 import info
 
 NAME = info.__name__
