@@ -30,6 +30,7 @@ requirements:
     - pyqt
     - pyqtgraph
     - matplotlib
+    - numba
     - typing_extensions
 
 test:
