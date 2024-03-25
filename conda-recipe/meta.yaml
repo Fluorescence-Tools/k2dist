@@ -28,7 +28,7 @@ requirements:
     - pyyaml
     - qtpy
     - pyqt
-    - pyqtgraph
+    - pyqtgraph 0.12.*
     - matplotlib
     - numba
     - typing_extensions
